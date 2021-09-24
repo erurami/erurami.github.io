@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <link rel="icon" type="image/png" href="https://erurami.github.io/icon.png">
+        <meta charset="UTF-8">
+        <title>erurami-san site tukuttatte?</title>
+    </head>
+    <body>
+        <div id="main-text-div">
+            <p id="normal-text">hello this is erurami po-toforio</p>
+            <p id="normal-text">the most important thing is...</p>
+            <p id="pyonpyon-text">こころぴょんぴょん</p>
+        </div>
+        <script>
+
+            var background_color_hsv = [0, 0.7, 0.8];
+
+            function apply_color (body, color) {
+                color[0] = Math.floor(color[0]);
+                color[1] = Math.floor(color[1]);
+                color[2] = Math.floor(color[2]);
+                var color_value = "#" + color[0].toString([16]) + color[1].toString([16]) + color[2].toString([16]);
+                body.style.background = color_value;
+            }
+
+            function hsv_to_rgb (hsv_color) {
+                var c, x, m;
+                c = hsv_color[1] * hsv_color[2];
+                m = hsv_color[2] - c;
+                x = c * (1 - Math.abs(((hsv_color[0] / 60) % 2) - 1))
+
+                var rgb_color = [0, 0, 0]
+                switch (Math.floor(hsv_color[0] / 60))
+                {
+                    case 0:
+                        rgb_color[0] = c;
+                        rgb_color[1] = x;
+                        break;
+                    case 1:
+                        rgb_color[0] = x;
+                        rgb_color[1] = c;
+                        break;
+                    case 2:
+                        rgb_color[1] = c;
+                        rgb_color[2] = x;
+                        break;
+                    case 3:
+                        rgb_color[1] = x;
+                        rgb_color[2] = c;
+                        break;
+                    case 4:
+                        rgb_color[0] = x;
+                        rgb_color[2] = c;
+                        break;
+                    case 5:
+                        rgb_color[0] = c;
+                        rgb_color[2] = x;
+                        break;
+                    default:
+                        break;
+                }
+
+                rgb_color[0] = (rgb_color[0] + m) * 255;
+                rgb_color[1] = (rgb_color[1] + m) * 255;
+                rgb_color[2] = (rgb_color[2] + m) * 255;
+
+                return rgb_color;
+            }
+
+            function color_next () {
+                background_color_hsv[0]+=0.1;
+                if (background_color_hsv[0] >= 360)
+                {
+                    background_color_hsv[0] %= 360;
+                }
+                apply_color(document.body, hsv_to_rgb(background_color_hsv));
+            }
+
+            setInterval("color_next()", 10);
+        </script>
+    </body>
+</html>
+
+<style>
+
+    /*body {
+        background: #c8c8fc;
+    }*/
+
+    #normal-text {
+        font-size: 30px;
+        text-align: center;
+        margin: auto auto;
+    }
+
+    #pyonpyon-text {
+        font-size: 96px;
+        text-align: center;
+        margin: auto auto;
+    }
+
+    #main-text-div {
+        margin: 300px auto;
+    }
+
+</style>
+
