@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>image generate sitemimasita</title>
+        <link rel="shortcut icon" href="https://erurami.github.io/icon.png" />
+    </head>
+    <body>
+        <canvas id="background-canvas"></canvas>
+        <canvas id="canvas"></canvas>
+        <section id="body">
+            <div id="main-text-div">
+                <p id="normal-text">hello this is erurami po-toforio</p>
+                <p id="normal-text">the most important thing is...</p>
+                <p id="pyonpyon-text">こころぴょんぴょん</p>
+            </div>
+            <p id="comment">画像生成してみました</p>
+        </section>
+        <script>
+
+
+            function hsv_to_rgb (hsv_color) {
+                var c, x, m;
+                c = hsv_color[1] * hsv_color[2];
+                m = hsv_color[2] - c;
+                x = c * (1 - Math.abs(((hsv_color[0] / 60) % 2) - 1))
+
+                var rgb_color = [0, 0, 0]
+                switch (Math.floor(hsv_color[0] / 60))
+                {
+                    case 0:
+                        rgb_color[0] = c;
+                        rgb_color[1] = x;
+                        break;
+                    case 1:
+                        rgb_color[0] = x;
+                        rgb_color[1] = c;
+                        break;
+                    case 2:
+                        rgb_color[1] = c;
+                        rgb_color[2] = x;
+                        break;
+                    case 3:
+                        rgb_color[1] = x;
+                        rgb_color[2] = c;
+                        break;
+                    case 4:
+                        rgb_color[0] = x;
+                        rgb_color[2] = c;
+                        break;
+                    case 5:
+                        rgb_color[0] = c;
+                        rgb_color[2] = x;
+                        break;
+                    default:
+                        break;
+                }
+
+                rgb_color[0] = Math.floor((rgb_color[0] + m) * 255);
+                rgb_color[1] = Math.floor((rgb_color[1] + m) * 255);
+                rgb_color[2] = Math.floor((rgb_color[2] + m) * 255);
+
+                return rgb_color;
+            }
+
+
+            function convertToBlackAndWhite (rgb_color)
+            {
+                var blightness = (rgb_color[0] + rgb_color[1] + rgb_color[2]) / 3;
+                var black_and_white = [blightness, blightness, blightness];
+                return black_and_white;
+            }
+
+
+            var canvas = document.getElementById('background-canvas');
+            canvas.width = document.documentElement.clientWidth / 2;
+            canvas.height = document.documentElement.clientHeight / 2;
+
+            var context = canvas.getContext("2d");
+
+            var color_now_hsv = [0, 0.7, 0.8];
+
+            var RECT_SIZE = [100, 100];
+            var X_POS_RANGE = canvas.width - RECT_SIZE[0];
+            var Y_POS_RANGE = canvas.height - RECT_SIZE[1];
+
+            function addRect()
+            {
+
+                var x_pos = Math.floor(Math.random() * X_POS_RANGE);
+                var y_pos = Math.floor(Math.random() * Y_POS_RANGE);
+
+                color_now_hsv[0] += 1;
+                if (color_now_hsv[0] >= 360)
+                {
+                    color_now_hsv[0] = color_now_hsv[0] % 360;
+                }
+
+                var color_now_rgb = convertToBlackAndWhite(hsv_to_rgb(color_now_hsv));
+                context.fillStyle = "#" + color_now_rgb[0].toString([16]) + color_now_rgb[1].toString([16]) + color_now_rgb[2].toString([16]);
+                context.fillRect(x_pos, y_pos, RECT_SIZE[0], RECT_SIZE[1]);
+            }
+            function addRect1000()
+            {
+                for (var i=0; i<1000; i++)
+                {
+                    addRect()
+                }
+            }
+            setInterval("addRect1000()", 1);
+        </script>
+    </body>
+</html>
+
+<style>
+
+    #background-canvas {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    #body {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+
+    #normal-text {
+        font-size: 30px;
+        text-align: center;
+        margin: auto auto;
+    }
+
+    #pyonpyon-text {
+        font-size: 96px;
+        text-align: center;
+        margin: auto auto;
+    }
+
+    #main-text-div {
+        background: #ffffff00;
+        margin: 300px auto;
+    }
+
+    #comment {
+        text-align: center;
+    }
+</style>
+
